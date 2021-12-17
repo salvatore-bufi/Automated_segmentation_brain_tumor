@@ -46,7 +46,9 @@ for superpixel = 1:N
                             35
                             42
                             43
-         %}
+     %}
+
+     
      %meanSmo is the volume segmented by pixel intensity
      meanSmo(memberPixelIdx) = mean(Smo(memberPixelIdx));
 end

@@ -15,7 +15,7 @@ fprintf("Insert T2 \n")
 [file, path] = uigetfile('*.nii;*.nii.gz');
 T2 = niftiread(fullfile(path,file));
 
-fprintf("Insert seg\n")
+fprintf("Insert tumor segmented by experts\n")
 [file, path] = uigetfile('*.nii;*.nii.gz');
 seg = niftiread(fullfile(path,file));
 
