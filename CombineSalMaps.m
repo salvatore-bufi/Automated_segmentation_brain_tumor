@@ -1,6 +1,9 @@
 function [saliency] = CombineSalMaps(sal4,sal8,sal16,sal32, m, n, dimZ)
 
 
+% Initialize weighted saliency map
+saliency = zeros(m,n, dimZ);
+
 for i = 1 : dimZ
     % Rescaling to the original image size MxN
     interpol4 = imresize(sal4(:,:,i), [m n], 'bilinear');
@@ -12,7 +15,8 @@ for i = 1 : dimZ
     interpol = cat(3, interpol4, interpol8, interpol16, interpol32);
     
     % Calculate weighted saliency map
-    saliency(:,:,i) = zeros(m,n);
+    
+    
     for j = 1 : 4
         weight = 1 / 4;
         temp = weight * interpol(:,:, j);

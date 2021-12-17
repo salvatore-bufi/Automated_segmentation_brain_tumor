@@ -60,7 +60,7 @@ close all;
 
 
 %Use superpixels to extract tumor region
-fprintf(" Running superpixels \n");
+fprintf(" \n Running superpixels \n");
 tumor = SuperpixelsSeg(Smo);
 
 
@@ -85,7 +85,7 @@ end
 % Display : tumor expert deliniation  - tumor
 % from activecontour
 fprintf(" \t Display : tumor expert deliniation(left side)  - tumor result(right side) \n \n")
-implay([segg mriTumor2], 5);
+implay([segg mriTumor2],5);
 pause();
 close all;
 

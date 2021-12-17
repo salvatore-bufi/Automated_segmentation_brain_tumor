@@ -14,8 +14,9 @@ saliency = zeros(dimX, dimY, dimZ);
 %}
 
 % Calculate Saliency Map
+fprintf("Start of saliency map calculation \n");
 for i = 1:dimZ
-    fprintf(" Slice no = %d \n",i)
+    fprintf(" \t\t Slice no = %d / %d \n",i, dimZ)
     %Extract 1 slice at time
     Vf = Flair(:,:,i);
     Vt1 = T1(:,:,i);
@@ -77,8 +78,11 @@ for i = 1:dimZ
     [sal32(:,:,i)] = SaliencyCalc(Patch32(:,:,:,i), w/32);
     
 
-    %[saliency(:,:,i)] = SaliencyCalc(Vabc, dimX, dimY, w);
+   
 end
+
+fprintf("End of saliency map calculation \n");
+
 end
 
 
