@@ -71,10 +71,15 @@ for i = 1:dimZ
     % Patch(:,:,1,i) = canale a dello slice i-esimo
     [Patch4(:,:,:,i), Patch8(:,:,:,i), Patch16(:,:,:,i), Patch32(:,:,:,i)] = CalculatePatches(Vabc, w);
 
+
+
     % Calculate Saliency Map
     [sal4(:,:,i)] = SaliencyCalc(Patch4(:,:,:,i), w/4);
+
     [sal8(:,:,i)] = SaliencyCalc(Patch8(:,:,:,i), w/8);
+
     [sal16(:,:,i)] = SaliencyCalc(Patch16(:,:,:,i), w/16);
+    
     [sal32(:,:,i)] = SaliencyCalc(Patch32(:,:,:,i), w/32);
     
 
