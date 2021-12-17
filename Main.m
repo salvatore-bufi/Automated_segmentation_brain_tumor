@@ -1,3 +1,7 @@
+% Clear command window and Workspace
+clc;
+clear;
+
 %               Acquire Flair T1c and T2
 fprintf("Insert Flair\n")
 [file, path] = uigetfile('*.nii;*.nii.gz');
@@ -31,7 +35,7 @@ segg = mat2gray(seg);
 
 % Display Images and apply pseudocolor
 Preview(Flair(:,:,80), T1(:,:,80), T2(:,:,80));
-pause();
+
 
 
 
@@ -46,6 +50,7 @@ w = 256; % first resize the image into dim WxW
 [Sal] = CombineSalMaps(sal4,sal8,sal16,sal32, dimX, dimY, dimZ);
 
 % Smoothen the saliency map
+Smo = zeros(dimX, dimY, dimZ);
 for i = 1 : dimZ
     Smo(:,:,i) = medfilt2(Sal(:,:,i), [25, 25]);
     imshow(Smo(:,:,i),[]);
@@ -64,12 +69,13 @@ mriTumor = zeros(dimX, dimY, dimZ);
 for i = 1 : dimZ
     mriTumor(:,:,i) = Flair(:,:,i) + tumor(:,:,i);
 end
+fprintf(" \t Display : tumor expert deliniation(left side)  - tumor result(right side) \n \n")
 implay([segg mriTumor ], 5);
 pause();
 
 
 % Improve results of superpixels using region-growing algorithm
-fprintf("Running active contours")
+fprintf("Running active contours \n") 
 tumor2 = activecontour(Smo , tumor, 50);
 mriTumor2 = zeros(dimX, dimY, dimZ);
 for i = 1 : dimZ
@@ -78,11 +84,14 @@ end
 
 % Display : tumor expert deliniation  - tumor
 % from activecontour
+fprintf(" \t Display : tumor expert deliniation(left side)  - tumor result(right side) \n \n")
 implay([segg mriTumor2], 5);
 pause();
-clase all;
+close all;
 
+fprintf(" Display the 3d volume - tumor is highlighted in white \n ")
 volshow(mriTumor2);
+pause();
 close all;
 
 

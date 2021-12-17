@@ -1,5 +1,30 @@
 function [Patch4, Patch8, Patch16, Patch32] = CalculatePatches(Vabc, w)
 
+% Dimension of the matrix Vabc
+[m, n] = size(Vabc);
+
+
+%       Initializes  the patch arrays
+% Patch4
+k = 4;
+no = w/k;
+Patch4 = zeros(no, no, 3);
+
+% Patch8
+k = 8;
+no = w/k;
+Patch8 = zeros(no, no, 3);
+
+% Patch16
+k = 16;
+no = w/k;
+Patch16 = zeros(no, no, 3);
+
+% Patch32
+k = 32;
+no = w/k;
+Patch32 = zeros(no, no, 3);
+
 % Calculate patches for each channel of Vabc ( L*,a*,b*)
 for i = 1 : 3
     % Patch K=4
@@ -93,7 +118,7 @@ media_patches =
 
     
 %}
-
+mean_val = zeros(no, no);
 for i = 1:no
     for j = 1:no
         mean_val(i,j) = sum(patches{i,j}, 'all')/k^2;
