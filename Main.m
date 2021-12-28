@@ -73,6 +73,13 @@ fprintf(" \t Display : tumor expert deliniation(left side)  - tumor result(right
 implay([segg mriTumor ], 5);
 pause();
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TRY GC
+tumorGC = GrowCut(Smo, tumor);
+mriTumorGC = zeros(dimX, dimY, dimZ);
+for i = 1 : dimZ
+    mriTumorGC(:,:,i) = Flair(:,:,i) + tumorGC(:,:,i);
+end
+implay([segg mriTumorGC], 5);
 
 % Improve results of superpixels using region-growing algorithm
 fprintf("Running active contours \n") 
@@ -81,6 +88,20 @@ mriTumor2 = zeros(dimX, dimY, dimZ);
 for i = 1 : dimZ
     mriTumor2(:,:,i) = Flair(:,:,i) + tumor(:,:,i);
 end
+
+% Extract label-map
+gc = Morph(tumor);
+
+% Improve result of superpixels using Grow-Cut
+for i = 1:dimZ
+	fprintf(" \t \t \t Iteration numb %d \n", i);
+	if sum(tumor(:,:,i), 'all') == 0
+		gcutted(:,:,i) = tumor(:,:,i);
+	else
+	gcutted(:,:,i) = GrowCut(Smo(:,:,i), gc(:,:,i));
+	end
+end
+
 
 % Display : tumor expert deliniation  - tumor
 % from activecontour
