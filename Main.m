@@ -73,26 +73,13 @@ fprintf(" \t Display : tumor expert deliniation(left side)  - tumor result(right
 implay([segg mriTumor ], 5);
 pause();
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TRY GC
-tumorGC = GrowCut(Smo, tumor);
-mriTumorGC = zeros(dimX, dimY, dimZ);
-for i = 1 : dimZ
-    mriTumorGC(:,:,i) = Flair(:,:,i) + tumorGC(:,:,i);
-end
-implay([segg mriTumorGC], 5);
-
-% Improve results of superpixels using region-growing algorithm
-fprintf("Running active contours \n") 
-tumor2 = activecontour(Smo , tumor, 50);
-mriTumor2 = zeros(dimX, dimY, dimZ);
-for i = 1 : dimZ
-    mriTumor2(:,:,i) = Flair(:,:,i) + tumor(:,:,i);
-end
 
 % Extract label-map
 gc = Morph(tumor);
 
 % Improve result of superpixels using Grow-Cut
+fprintf(" \n \n Running GrowCut \n") 
+gcutted = zeros(dimX,dimY,dimZ);
 for i = 1:dimZ
 	fprintf(" \t \t \t Iteration numb %d \n", i);
 	if sum(tumor(:,:,i), 'all') == 0
@@ -101,19 +88,48 @@ for i = 1:dimZ
 	gcutted(:,:,i) = GrowCut(Smo(:,:,i), gc(:,:,i));
 	end
 end
-
-
-% Display : tumor expert deliniation  - tumor
-% from activecontour
 fprintf(" \t Display : tumor expert deliniation(left side)  - tumor result(right side) \n \n")
-implay([segg mriTumor2],5);
+implay([segg gcutted], 5)
+
+%Display the tumor inside the MRI-Image vs the one segmented by the expert
+mriTumorGC = zeros(dimX, dimY, dimZ);
+for i = 1 : dimZ
+    mriTumorGC(:,:,i) = Flair(:,:,i) + gcutted(:,:,i);
+end
+implay([segg mriTumorGC], 5);
 pause();
 close all;
 
 fprintf(" Display the 3d volume - tumor is highlighted in white \n ")
+volshow(mriTumorGC);
+pause();
+close all;
+
+
+
+
+
+% Display : tumor expert deliniation  - tumor
+%{ 
+% Improve results of superpixels using region-growing algorithm
+fprintf("Running active contours \n") 
+tumor2 = activecontour(Smo , tumor, 50);
+mriTumor2 = zeros(dimX, dimY, dimZ);
+for i = 1 : dimZ
+    mriTumor2(:,:,i) = Flair(:,:,i) + tumor(:,:,i);
+end
+
+from activecontour
+fprintf(" \t Display : tumor expert deliniation(left side)  - tumor result(right side) \n \n")
+implay([segg mriTumor2],5);
+pause();
+close all;
+fprintf(" Display the 3d volume - tumor is highlighted in white \n ")
 volshow(mriTumor2);
 pause();
 close all;
+
+%}
 
 
 
