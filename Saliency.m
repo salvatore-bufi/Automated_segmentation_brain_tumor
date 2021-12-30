@@ -89,7 +89,7 @@ for i = 1:dimZ
 end
 
 fprintf("End of saliency map calculation \n");
-
+close(h);
 end
 
 

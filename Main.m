@@ -82,16 +82,21 @@ gc = Morph(tumor);
 % Improve result of superpixels using Grow-Cut
 fprintf(" \n \n Running GrowCut \n") 
 gcutted = zeros(dimX,dimY,dimZ);
+h = waitbar(0,'1', 'Name', 'Running Grow-Cut');
 for i = 1:dimZ
-	fprintf(" \t \t \t Iteration numb %d \n", i);
+    waitbar(i/dimZ, h, sprintf(" Slice no = %d / %d", i, dimZ))
+	%fprintf(" \t \t \t Iteration numb %d \n", i);
 	if sum(tumor(:,:,i), 'all') == 0
 		gcutted(:,:,i) = tumor(:,:,i);
 	else
 	gcutted(:,:,i) = GrowCut(Smo(:,:,i), gc(:,:,i));
 	end
 end
+close(h);
 fprintf(" \t Display : tumor expert deliniation(left side)  - tumor result(right side) \n \n")
 implay([segg gcutted], 5)
+pause();
+close all;
 
 %Display the tumor inside the MRI-Image vs the one segmented by the expert
 mriTumorGC = zeros(dimX, dimY, dimZ);

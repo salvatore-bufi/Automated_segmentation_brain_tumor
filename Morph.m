@@ -1,12 +1,12 @@
 function [gc] = Morph(tumor)
 
 %foreground
-se = strel('sphere',3);
+se = strel('sphere',5); %3
 fore = imerode(tumor, se);
 
 %background
-a = 3;
-b = 5;
+a = 2;
+b = 3; %a = 3, b = 4
 se = strel('sphere',a);
 b1 = imdilate(tumor, se);
 

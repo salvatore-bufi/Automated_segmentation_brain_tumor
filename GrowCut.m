@@ -60,7 +60,7 @@ while running == 1
                 end
             end
         end
-        fprintf("\n NaN = %d \n",sum(isnan(label),'all') );
+        %fprintf("\n NaN = %d \n",sum(isnan(label),'all') );
     if sum(isnan(label),'all') == 0
         running = 0;
     end
