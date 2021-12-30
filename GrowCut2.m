@@ -19,7 +19,7 @@ label = gc;
 
 
 theta = label; % Theta = strength
-%theta(theta == 0) = 1;
+theta(theta == 0) = 1;
 
 labelnew = label;
 thetanew = theta;

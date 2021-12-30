@@ -53,8 +53,10 @@ w = 256; % first resize the image into dim WxW
 Smo = zeros(dimX, dimY, dimZ);
 for i = 1 : dimZ
     Smo(:,:,i) = medfilt2(Sal(:,:,i), [25, 25]);
-    imshow(Smo(:,:,i),[]);
 end
+fprintf(" \n Saliency Map \n");
+implay(mat2gray(Smo), 5)
+pause();
 close all;
 
 
@@ -109,27 +111,7 @@ close all;
 
 
 
-% Display : tumor expert deliniation  - tumor
-%{ 
-% Improve results of superpixels using region-growing algorithm
-fprintf("Running active contours \n") 
-tumor2 = activecontour(Smo , tumor, 50);
-mriTumor2 = zeros(dimX, dimY, dimZ);
-for i = 1 : dimZ
-    mriTumor2(:,:,i) = Flair(:,:,i) + tumor(:,:,i);
-end
 
-from activecontour
-fprintf(" \t Display : tumor expert deliniation(left side)  - tumor result(right side) \n \n")
-implay([segg mriTumor2],5);
-pause();
-close all;
-fprintf(" Display the 3d volume - tumor is highlighted in white \n ")
-volshow(mriTumor2);
-pause();
-close all;
-
-%}
 
 
 
